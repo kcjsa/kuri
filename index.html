@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kuri Server - 幻想RPGワールド</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      padding: 2rem;
+      background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+      color: #e0dede;
+      font-family: 'Noto Serif JP', serif;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 8px;
+      box-sizing: border-box;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+      font-size: 2.5rem;
+      color: #a6c1ee;
+      text-shadow: 0 0 10px #7186f4;
+    }
+    h2 {
+      color: #a6c1ee;
+      border-bottom: 2px solid #7186f4;
+      padding-bottom: 0.3rem;
+      margin-top: 2rem;
+    }
+    p {
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+    ol, ul {
+      margin-left: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    code {
+      background: rgba(118, 133, 255, 0.2);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      color: #c8d1ff;
+    }
+    .note {
+      background: rgba(31, 39, 74, 0.6);
+      padding: 1rem;
+      border-left: 4px solid #7186f4;
+      margin-bottom: 1.5rem;
+      border-radius: 6px;
+      color: #cbd5ff;
+    }
+    #status {
+      padding: 1rem;
+      background: rgba(31, 39, 74, 0.4);
+      border-radius: 6px;
+      font-weight: bold;
+      color: #dbe9ff;
+      box-shadow: 0 0 8px #7186f4;
+      text-align: center;
+    }
+    a {
+      color: #8ca6ff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Kuri Server - 幻想RPGワールド</h1>
+
+  <section>
+    <h2>Xboxフレンド欄から簡単参加！</h2>
+    <p>
+      当サーバーは <strong>mcxboxbroadcast</strong> を導入しています。<br />
+      Xboxのフレンド欄からサーバーが自動的に表示され、クリックするだけで簡単に参加できます。
+    </p>
+  </section>
+
+  <section>
+    <h2>参加手順</h2>
+    <ol>
+      <li>XboxアカウントでMinecraft（統合版）にログインしてください。</li>
+      <li>Xboxのフレンドリストに当サーバーが自動表示されます。</li>
+      <li>
+        <strong>サーバーに参加するには、Xboxフレンドとして <code>kr66jp6568</code> を追加してください。</strong>
+      </li>
+      <li>フレンド欄からサーバーを選んで「参加」ボタンを押すだけ！</li>
+      <li>サーバーがオンラインであれば、自動的に接続されます。</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>注意点</h2>
+    <div class="note">
+      <ul>
+        <li><code>kr66jp6568</code> は当サーバー専用のXboxアカウントです。</li>
+        <li>フレンド登録後、しばらくしてからサーバーがフレンド欄に表示されます。</li>
+        <li>表示されない場合はXboxアカウントのログイン状態やネットワーク環境を確認してください。</li>
+        <li>サーバーがオフラインの場合はフレンド欄に表示されません。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>公式Discord</h2>
+    <p>
+      <a href="https://discord.gg/WTBgAcYjAp" target="_blank" rel="noopener noreferrer">公式Discordサーバーはこちら</a>
+    </p>
+    <p>Discordが使えない方はこちらの代替サイトをご利用ください：</p>
+    <p>
+      <a href="https://kcjsa.github.io/mckuri/" target="_blank" rel="noopener noreferrer">https://kcjsa.github.io/mckuri/</a>
+    </p>
+  </section>
+
+  <section>
+    <h2>mcxboxbroadcastとは？</h2>
+    <p>
+      mcxboxbroadcastは、Xbox Liveのフレンド連携機能を利用して、Bedrock（統合版）サーバーへの参加をスムーズにするツールです。<br />
+      これにより、IPやポートの設定なしで気軽にフレンドと一緒に遊べます。
+    </p>
+  </section>
+
+  <section>
+    <h2>サーバーステータス</h2>
+    <p>現在のサーバーステータスは下記をご確認ください。</p>
+    <div id="status">読み込み中...</div>
+  </section>
+
+  <script>
+    const WORKERS_URL = 'https://kuri.kurea-ch124.workers.dev'  // ←デプロイ後のWorkers URLに置き換えてください
+    async function fetchStatus() {
+      try {
+        const res = await fetch(WORKERS_URL)
+        const data = await res.json()
+        const statusDiv = document.getElementById('status')
+
+        if (data.online) {
+          statusDiv.textContent = `オンライン中！ プレイヤー数: ${data.playersOnline ?? '不明'} / ${data.playersMax ?? '不明'}`
+        } else {
+          statusDiv.textContent = 'サーバーはオフラインです。'
+        }
+      } catch (e) {
+        document.getElementById('status').textContent = 'サーバーステータスの取得に失敗しました。'
+      }
+    }
+
+    fetchStatus()
+    setInterval(fetchStatus, 30000)
+  </script>
+</body>
+</html>
